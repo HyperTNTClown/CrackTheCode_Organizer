@@ -8,7 +8,6 @@ use crate::db::DbPool;
 use actix_identity::Identity;
 use actix_session::Session;
 use actix_web::{get, post, web, HttpMessage, HttpRequest, HttpResponse, Responder};
-use actix_web::web::service;
 use diesel::{ExpressionMethods, QueryDsl, RunQueryDsl};
 use hsh::models::hash::Hash;
 use itertools::Itertools;
