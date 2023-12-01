@@ -1,0 +1,21 @@
+<div>
+  <form (submit)="submit($event)">
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input matInput type="email" name="email" id="email" placeholder="johnd123@deltalearns.ca"
+             [formControl]="form.controls.email">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Password</mat-label>
+      <input matInput type="password" name="password" id="password" placeholder="password"
+             [formControl]="form.controls.password">
+    </mat-form-field>
+    <button mat-stroked-button type="submit" value="Login"> Login</button>
+    @if (admin) {
+      <button mat-stroked-button type="submit" value="Admin Login"> Admin Login </button>
+    }
+    <button mat-stroked-button color="" type="submit" value="Register"> Register</button>
+  </form>
+</div>
+
+

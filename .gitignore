@@ -1,0 +1,6 @@
+sqldata
+.env
+Caddyfile
+
+*/.idea
+*/.vscode
