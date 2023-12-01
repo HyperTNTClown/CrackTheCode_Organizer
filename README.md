@@ -1,5 +1,7 @@
 # Crack The Code Organizer
 
+TODO: README...
+
 ## License
 
 This project is currently licensed under the permissive, reuse-friendly terms of the MIT License (see LICENSE) which allows commercial and non-commercial usage with few restrictions, provided the copyright and license notice are retained.
