@@ -6,12 +6,11 @@ use crate::db::DbPool;
 use actix_identity::{Identity, IdentityExt};
 use actix_session::SessionExt;
 use actix_web::{get, guard, patch, put, web, HttpResponse, Responder};
-use diesel::query_builder::UpdateStatement;
+
 use diesel::{
-    BoolExpressionMethods, ExpressionMethods, MysqlConnection, QueryDsl, RunQueryDsl,
-    TextExpressionMethods,
+    ExpressionMethods, QueryDsl, RunQueryDsl,
 };
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize};
 
 pub fn config(cfg: &mut web::ServiceConfig) {
     cfg.service(

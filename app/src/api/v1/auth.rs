@@ -42,12 +42,12 @@ async fn login(
                 if user.admin {
                     session.insert("admin", true).unwrap();
                 }
-                HttpResponse::Ok().json(format!("Logged in"))
+                HttpResponse::Ok().json("Logged in".to_string())
             } else {
-                HttpResponse::Unauthorized().body(format!("Unauthorized"))
+                HttpResponse::Unauthorized().body("Unauthorized".to_string())
             }
         }
-        _ => HttpResponse::Unauthorized().body(format!("Unauthorized")),
+        _ => HttpResponse::Unauthorized().body("Unauthorized".to_string()),
     }
 }
 
@@ -56,16 +56,14 @@ async fn register(pool: web::Data<DbPool>, json: web::Json<UserRegisterRequest>)
     let mut conn = pool.get().unwrap();
     let json = json.into_inner();
     if !json.email.ends_with("@deltalearns.ca") {
-        return HttpResponse::Unauthorized().body(format!(
-            "Please sign up with your @deltalearns.ca email address"
-        ));
+        return HttpResponse::Unauthorized().body("Please sign up with your @deltalearns.ca email address".to_string());
     }
 
     let e = users.filter(email.eq(&json.email)).first::<User>(&mut conn);
     match e {
-        Ok(_) => HttpResponse::Conflict().body(format!("User already exists")),
+        Ok(_) => HttpResponse::Conflict().body("User already exists".to_string()),
         _ => {
-            let mut name = &mut json.email.split("@").collect_vec()[0].chars();
+            let name = &mut json.email.split('@').collect_vec()[0].chars();
             name.next_back();
             name.next_back();
             name.next_back();
@@ -76,7 +74,7 @@ async fn register(pool: web::Data<DbPool>, json: web::Json<UserRegisterRequest>)
                 .values(&new_user)
                 .execute(&mut conn)
                 .expect("TODO: panic message");
-            HttpResponse::Ok().body(format!("User {} created", name))
+            HttpResponse::Ok().body(format!("User {name} created"))
         }
     }
 }
@@ -85,17 +83,17 @@ async fn register(pool: web::Data<DbPool>, json: web::Json<UserRegisterRequest>)
 async fn valid(identity: Option<Identity>, session: Session) -> impl Responder {
     match identity {
         Some(e) => match session.get::<bool>("admin") {
-            Ok(Some(admin)) => HttpResponse::Ok().body(format!("Admin {}", e.id().unwrap())),
+            Ok(Some(_admin)) => HttpResponse::Ok().body(format!("Admin {}", e.id().unwrap())),
             _ => HttpResponse::Ok().body(format!("User {}", e.id().unwrap())),
         },
-        _ => HttpResponse::Unauthorized().body(format!("Unauthorized")),
+        _ => HttpResponse::Unauthorized().body("Unauthorized".to_string()),
     }
 }
 
 #[get("/auth/logout")]
 async fn logout(identity: Identity) -> impl Responder {
     identity.logout();
-    HttpResponse::Ok().body(format!("Logged out"))
+    HttpResponse::Ok().body("Logged out".to_string())
 }
 
 #[get("/is-admin")]

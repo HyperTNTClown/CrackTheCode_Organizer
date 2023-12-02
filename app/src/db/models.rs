@@ -1,4 +1,4 @@
-use crate::db::schema::puzzle_set_refs::dsl::puzzle_set_refs;
+
 use diesel::prelude::*;
 use hsh::models::hash::Hash;
 use serde::{Deserialize, Serialize};
@@ -71,8 +71,8 @@ pub struct PuzzleSet {
 
 impl PuzzleSet {
     pub fn fetch_puzzles(&self, conn: &mut MysqlConnection) -> Vec<Puzzle> {
-        use crate::db::schema::puzzle_set_refs::dsl::*;
-        use crate::db::schema::puzzles::dsl::{id, *};
+        use crate::db::schema::puzzle_set_refs::dsl::{puzzle_set_id, puzzle_set_refs};
+        use crate::db::schema::puzzles::dsl::{id, puzzles};
 
         let puzzle_refs = puzzle_set_refs
             .filter(puzzle_set_id.eq(self.id))
