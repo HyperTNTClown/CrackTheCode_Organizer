@@ -36,7 +36,7 @@ async fn login(
     match user {
         Ok(user) => {
             let salt = &user.salt;
-            let hash = hex::encode(Hash::generate_hash(&json.password, &salt, "argon2i").unwrap());
+            let hash = hex::encode(Hash::generate_hash(&json.password, salt, "argon2i").unwrap());
             if user.password.eq(&hash) {
                 Identity::login(&req.extensions(), user.email).unwrap();
                 if user.admin {
@@ -71,7 +71,7 @@ async fn register(pool: web::Data<DbPool>, json: web::Json<UserRegisterRequest>)
             name.next_back();
             name.next_back();
             let name = name.as_str().to_string();
-            let new_user = NewUser::new(name.clone(), json.password, json.email);
+            let new_user = NewUser::new(&name, &json.password, &json.email);
             diesel::insert_into(users)
                 .values(&new_user)
                 .execute(&mut conn)
@@ -134,7 +134,9 @@ impl ValidAdminResponse {
 async fn valid_admin(identity: Option<Identity>, session: Session) -> impl Responder {
     match identity {
         Some(e) => match session.get::<bool>("admin") {
-            Ok(Some(admin)) => HttpResponse::Ok().json(ValidAdminResponse::true_response(Some(e.id().unwrap()))),
+            Ok(Some(_)) => {
+                HttpResponse::Ok().json(ValidAdminResponse::true_response(Some(e.id().unwrap())))
+            }
             _ => HttpResponse::Ok().json(ValidAdminResponse::false_response(Some(e.id().unwrap()))),
         },
         _ => HttpResponse::Ok().json(ValidAdminResponse::false_response(None)),

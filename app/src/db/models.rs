@@ -26,13 +26,13 @@ pub struct NewUser {
 }
 
 impl NewUser {
-    pub fn new(name: String, password: String, email: String) -> Self {
+    pub fn new(name: &str, password: &str, email: &str) -> Self {
         let salt = Hash::generate_salt("argon2i").unwrap();
-        let hash = Hash::generate_hash(&password, &salt, "argon2i").unwrap();
+        let hash = Hash::generate_hash(password, &salt, "argon2i").unwrap();
 
         Self {
-            name,
-            email,
+            name: name.to_string(),
+            email: email.to_string(),
             password: hex::encode(hash),
             salt,
         }
