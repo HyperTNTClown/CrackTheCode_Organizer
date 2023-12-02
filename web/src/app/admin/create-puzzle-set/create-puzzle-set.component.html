@@ -3,16 +3,9 @@
     <input matInput name="Name">
 </mat-form-field>
 <div id="container">
-    <angular-markdown-editor
-            textareaId="markdown-editor" [rows]="12"
-            name="markdownText" [(ngModel)]="content"
-            (onSave)="console.log(content)"
-            [options]="editorOptions"
-    >
-    </angular-markdown-editor>
+  <app-markdown-editor (contentChange)="this.content = $event"></app-markdown-editor>
 
     <markdown [data]="content"
-              [katex]="true"
-    >
+              [katex]="true">
     </markdown>
 </div>
