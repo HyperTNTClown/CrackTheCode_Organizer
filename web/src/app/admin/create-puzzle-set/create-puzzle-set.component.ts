@@ -28,8 +28,7 @@ export class CreatePuzzleSetComponent implements OnInit {
 
   // TODO: Implement your own Markdown editor to replace this one.
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   protected readonly console = console;
 
