@@ -1,11 +1,11 @@
 use crate::db::models::Puzzle;
 use crate::db::schema::puzzles::dsl::puzzles;
 use crate::db::schema::puzzles::id;
-use crate::db::DbPool;
-use actix_identity::{Identity, IdentityExt};
-use actix_session::SessionExt;
-use actix_web::http::header::HeaderValue;
-use actix_web::{get, guard, web, HttpResponse, Responder};
+use crate::db::ConnPool;
+use actix_identity::{Identity};
+
+
+use actix_web::{get, web, HttpResponse, Responder};
 use diesel::prelude::*;
 
 pub fn config(cfg: &mut web::ServiceConfig) {
@@ -21,8 +21,8 @@ pub fn config(cfg: &mut web::ServiceConfig) {
 
 #[get("/puzzle/{puzzle_id}.md")]
 async fn puzzle_markdown(
-    pool: web::Data<DbPool>,
-    identity: Identity,
+    pool: web::Data<ConnPool>,
+    _identity: Identity,
     path: web::Path<i32>,
 ) -> impl Responder {
     let mut conn = pool.get().unwrap();
@@ -37,8 +37,8 @@ async fn puzzle_markdown(
                 "Content-Type".parse().unwrap(),
                 "text/markdown; charset=utf-8".parse().unwrap(),
             );
-            return res;
+            res
         }
-        _ => HttpResponse::NotFound().body(format!("Not found")),
+        _ => HttpResponse::NotFound().body("Not found".to_string()),
     }
 }

@@ -1,4 +1,4 @@
-use crate::db::schema::puzzle_set_refs::dsl::puzzle_set_refs;
+
 use diesel::prelude::*;
 use hsh::models::hash::Hash;
 use serde::{Deserialize, Serialize};
@@ -26,13 +26,13 @@ pub struct NewUser {
 }
 
 impl NewUser {
-    pub fn new(name: String, password: String, email: String) -> Self {
+    pub fn new(name: &str, password: &str, email: &str) -> Self {
         let salt = Hash::generate_salt("argon2i").unwrap();
-        let hash = Hash::generate_hash(&password, &salt, "argon2i").unwrap();
+        let hash = Hash::generate_hash(password, &salt, "argon2i").unwrap();
 
         Self {
-            name,
-            email,
+            name: name.to_string(),
+            email: email.to_string(),
             password: hex::encode(hash),
             salt,
         }
@@ -71,8 +71,8 @@ pub struct PuzzleSet {
 
 impl PuzzleSet {
     pub fn fetch_puzzles(&self, conn: &mut MysqlConnection) -> Vec<Puzzle> {
-        use crate::db::schema::puzzle_set_refs::dsl::*;
-        use crate::db::schema::puzzles::dsl::{id, *};
+        use crate::db::schema::puzzle_set_refs::dsl::{puzzle_set_id, puzzle_set_refs};
+        use crate::db::schema::puzzles::dsl::{id, puzzles};
 
         let puzzle_refs = puzzle_set_refs
             .filter(puzzle_set_id.eq(self.id))

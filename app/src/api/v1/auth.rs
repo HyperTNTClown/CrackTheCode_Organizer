@@ -4,7 +4,7 @@ use crate::api::v1::models::{
 use crate::db::models::{NewUser, User};
 use crate::db::schema::users::dsl::users;
 use crate::db::schema::users::email;
-use crate::db::DbPool;
+use crate::db::ConnPool;
 use actix_identity::Identity;
 use actix_session::Session;
 use actix_web::{get, post, web, HttpMessage, HttpRequest, HttpResponse, Responder};
@@ -24,7 +24,7 @@ pub fn config(cfg: &mut web::ServiceConfig) {
 
 #[post("/auth/login")]
 async fn login(
-    pool: web::Data<DbPool>,
+    pool: web::Data<ConnPool>,
     req: HttpRequest,
     json: web::Json<UserLoginRequest>,
     session: Session,
@@ -36,48 +36,43 @@ async fn login(
     match user {
         Ok(user) => {
             let salt = &user.salt;
-            let hash = hex::encode(Hash::generate_hash(&json.password, &salt, "argon2i").unwrap());
+            let hash = hex::encode(Hash::generate_hash(&json.password, salt, "argon2i").unwrap());
             if user.password.eq(&hash) {
                 Identity::login(&req.extensions(), user.email).unwrap();
                 if user.admin {
                     session.insert("admin", true).unwrap();
                 }
-                HttpResponse::Ok().json(format!("Logged in"))
+                HttpResponse::Ok().json("Logged in".to_string())
             } else {
-                HttpResponse::Unauthorized().body(format!("Unauthorized"))
+                HttpResponse::Unauthorized().body("Unauthorized".to_string())
             }
         }
-        _ => HttpResponse::Unauthorized().body(format!("Unauthorized")),
+        _ => HttpResponse::Unauthorized().body("Unauthorized".to_string()),
     }
 }
 
 #[post("/auth/register")]
-async fn register(pool: web::Data<DbPool>, json: web::Json<UserRegisterRequest>) -> impl Responder {
+async fn register(pool: web::Data<ConnPool>, json: web::Json<UserRegisterRequest>) -> impl Responder {
     let mut conn = pool.get().unwrap();
     let json = json.into_inner();
     if !json.email.ends_with("@deltalearns.ca") {
-        return HttpResponse::Unauthorized().body(format!(
-            "Please sign up with your @deltalearns.ca email address"
-        ));
+        return HttpResponse::Unauthorized().body("Please sign up with your @deltalearns.ca email address".to_string());
     }
 
     let e = users.filter(email.eq(&json.email)).first::<User>(&mut conn);
-    match e {
-        Ok(_) => HttpResponse::Conflict().body(format!("User already exists")),
-        _ => {
-            let mut name = &mut json.email.split("@").collect_vec()[0].chars();
-            name.next_back();
-            name.next_back();
-            name.next_back();
-            name.next_back();
-            let name = name.as_str().to_string();
-            let new_user = NewUser::new(name.clone(), json.password, json.email);
-            diesel::insert_into(users)
-                .values(&new_user)
-                .execute(&mut conn)
-                .expect("TODO: panic message");
-            HttpResponse::Ok().body(format!("User {} created", name))
-        }
+    if e.is_ok() { HttpResponse::Conflict().body("User already exists".to_string()) } else {
+        let name = &mut json.email.split('@').collect_vec()[0].chars();
+        name.next_back();
+        name.next_back();
+        name.next_back();
+        name.next_back();
+        let name = name.as_str().to_string();
+        let new_user = NewUser::new(&name, &json.password, &json.email);
+        diesel::insert_into(users)
+            .values(&new_user)
+            .execute(&mut conn)
+            .expect("TODO: panic message");
+        HttpResponse::Ok().body(format!("User {name} created"))
     }
 }
 
@@ -85,21 +80,21 @@ async fn register(pool: web::Data<DbPool>, json: web::Json<UserRegisterRequest>)
 async fn valid(identity: Option<Identity>, session: Session) -> impl Responder {
     match identity {
         Some(e) => match session.get::<bool>("admin") {
-            Ok(Some(admin)) => HttpResponse::Ok().body(format!("Admin {}", e.id().unwrap())),
+            Ok(Some(_admin)) => HttpResponse::Ok().body(format!("Admin {}", e.id().unwrap())),
             _ => HttpResponse::Ok().body(format!("User {}", e.id().unwrap())),
         },
-        _ => HttpResponse::Unauthorized().body(format!("Unauthorized")),
+        _ => HttpResponse::Unauthorized().body("Unauthorized".to_string()),
     }
 }
 
 #[get("/auth/logout")]
 async fn logout(identity: Identity) -> impl Responder {
     identity.logout();
-    HttpResponse::Ok().body(format!("Logged out"))
+    HttpResponse::Ok().body("Logged out".to_string())
 }
 
 #[get("/is-admin")]
-async fn is_admin(q: web::Query<IsAdminRequest>, pool: web::Data<DbPool>) -> impl Responder {
+async fn is_admin(q: web::Query<IsAdminRequest>, pool: web::Data<ConnPool>) -> impl Responder {
     let mut conn = pool.get().unwrap();
     let e = users.filter(email.eq(&q.email)).first::<User>(&mut conn);
 
@@ -134,7 +129,9 @@ impl ValidAdminResponse {
 async fn valid_admin(identity: Option<Identity>, session: Session) -> impl Responder {
     match identity {
         Some(e) => match session.get::<bool>("admin") {
-            Ok(Some(admin)) => HttpResponse::Ok().json(ValidAdminResponse::true_response(Some(e.id().unwrap()))),
+            Ok(Some(_)) => {
+                HttpResponse::Ok().json(ValidAdminResponse::true_response(Some(e.id().unwrap())))
+            }
             _ => HttpResponse::Ok().json(ValidAdminResponse::false_response(Some(e.id().unwrap()))),
         },
         _ => HttpResponse::Ok().json(ValidAdminResponse::false_response(None)),

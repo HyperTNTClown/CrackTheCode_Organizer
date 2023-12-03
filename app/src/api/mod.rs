@@ -19,5 +19,5 @@ async fn hello() -> impl Responder {
 
 #[get("/ping")]
 async fn ping() -> impl Responder {
-    HttpResponse::Ok().body(format!("pong"))
+    HttpResponse::Ok().body("pong".to_string())
 }
