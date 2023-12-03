@@ -2,7 +2,7 @@ use crate::db::models::{NewPuzzle, PuzzleSet};
 use crate::db::schema::puzzle_set::dsl::puzzle_set;
 use crate::db::schema::puzzles::dsl::puzzles;
 use crate::db::schema::puzzles::{description, id, name};
-use crate::db::DbPool;
+use crate::db::ConnPool;
 use actix_identity::{Identity, IdentityExt};
 use actix_session::SessionExt;
 use actix_web::{get, guard, patch, put, web, HttpResponse, Responder};
@@ -54,7 +54,7 @@ async fn fetch(
 
 #[get("/puzzle/{puzzle_id}")]
 async fn get_puzzule(
-    _pool: web::Data<DbPool>,
+    _pool: web::Data<ConnPool>,
     identity: Identity,
     path: web::Path<i32>,
 ) -> impl Responder {

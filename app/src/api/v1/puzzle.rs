@@ -1,7 +1,7 @@
 use crate::db::models::Puzzle;
 use crate::db::schema::puzzles::dsl::puzzles;
 use crate::db::schema::puzzles::id;
-use crate::db::DbPool;
+use crate::db::ConnPool;
 use actix_identity::{Identity};
 
 
@@ -21,7 +21,7 @@ pub fn config(cfg: &mut web::ServiceConfig) {
 
 #[get("/puzzle/{puzzle_id}.md")]
 async fn puzzle_markdown(
-    pool: web::Data<DbPool>,
+    pool: web::Data<ConnPool>,
     _identity: Identity,
     path: web::Path<i32>,
 ) -> impl Responder {

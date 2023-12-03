@@ -6,7 +6,7 @@ use diesel::MysqlConnection;
 use diesel::r2d2::{ConnectionManager, Pool};
 use dotenvy::dotenv;
 
-pub type DbPool = Pool<ConnectionManager<MysqlConnection>>;
+pub type ConnPool = Pool<ConnectionManager<MysqlConnection>>;
 pub fn establish_connection() -> Pool<ConnectionManager<MysqlConnection>> {
     dotenv().ok();
 

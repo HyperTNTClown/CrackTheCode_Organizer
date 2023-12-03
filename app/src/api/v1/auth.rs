@@ -4,7 +4,7 @@ use crate::api::v1::models::{
 use crate::db::models::{NewUser, User};
 use crate::db::schema::users::dsl::users;
 use crate::db::schema::users::email;
-use crate::db::DbPool;
+use crate::db::ConnPool;
 use actix_identity::Identity;
 use actix_session::Session;
 use actix_web::{get, post, web, HttpMessage, HttpRequest, HttpResponse, Responder};
@@ -24,7 +24,7 @@ pub fn config(cfg: &mut web::ServiceConfig) {
 
 #[post("/auth/login")]
 async fn login(
-    pool: web::Data<DbPool>,
+    pool: web::Data<ConnPool>,
     req: HttpRequest,
     json: web::Json<UserLoginRequest>,
     session: Session,
@@ -52,7 +52,7 @@ async fn login(
 }
 
 #[post("/auth/register")]
-async fn register(pool: web::Data<DbPool>, json: web::Json<UserRegisterRequest>) -> impl Responder {
+async fn register(pool: web::Data<ConnPool>, json: web::Json<UserRegisterRequest>) -> impl Responder {
     let mut conn = pool.get().unwrap();
     let json = json.into_inner();
     if !json.email.ends_with("@deltalearns.ca") {
@@ -60,22 +60,19 @@ async fn register(pool: web::Data<DbPool>, json: web::Json<UserRegisterRequest>)
     }
 
     let e = users.filter(email.eq(&json.email)).first::<User>(&mut conn);
-    match e {
-        Ok(_) => HttpResponse::Conflict().body("User already exists".to_string()),
-        _ => {
-            let name = &mut json.email.split('@').collect_vec()[0].chars();
-            name.next_back();
-            name.next_back();
-            name.next_back();
-            name.next_back();
-            let name = name.as_str().to_string();
-            let new_user = NewUser::new(&name, &json.password, &json.email);
-            diesel::insert_into(users)
-                .values(&new_user)
-                .execute(&mut conn)
-                .expect("TODO: panic message");
-            HttpResponse::Ok().body(format!("User {name} created"))
-        }
+    if e.is_ok() { HttpResponse::Conflict().body("User already exists".to_string()) } else {
+        let name = &mut json.email.split('@').collect_vec()[0].chars();
+        name.next_back();
+        name.next_back();
+        name.next_back();
+        name.next_back();
+        let name = name.as_str().to_string();
+        let new_user = NewUser::new(&name, &json.password, &json.email);
+        diesel::insert_into(users)
+            .values(&new_user)
+            .execute(&mut conn)
+            .expect("TODO: panic message");
+        HttpResponse::Ok().body(format!("User {name} created"))
     }
 }
 
@@ -97,7 +94,7 @@ async fn logout(identity: Identity) -> impl Responder {
 }
 
 #[get("/is-admin")]
-async fn is_admin(q: web::Query<IsAdminRequest>, pool: web::Data<DbPool>) -> impl Responder {
+async fn is_admin(q: web::Query<IsAdminRequest>, pool: web::Data<ConnPool>) -> impl Responder {
     let mut conn = pool.get().unwrap();
     let e = users.filter(email.eq(&q.email)).first::<User>(&mut conn);
 
