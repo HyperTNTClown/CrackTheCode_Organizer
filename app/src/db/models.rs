@@ -92,7 +92,7 @@ impl PuzzleSet {
     }
 }
 
-#[derive(Insertable)]
+#[derive(Insertable, Deserialize)]
 #[diesel(table_name = crate::db::schema::puzzle_set)]
 #[diesel(check_for_backend(diesel::mysql::Mysql))]
 pub struct NewPuzzleSet {

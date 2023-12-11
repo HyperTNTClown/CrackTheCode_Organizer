@@ -11,7 +11,6 @@ import {MatButtonModule} from "@angular/material/button";
     selector: 'app-auth',
     standalone: true,
     imports: [CommonModule, ReactiveFormsModule, FormsModule, MatInputModule, MatButtonModule],
-    providers: [ApiService, Router],
     templateUrl: './auth.component.html',
     styleUrl: './auth.component.css'
 })
@@ -32,8 +31,9 @@ export class AuthComponent implements OnInit {
         console.log('auth component initialized');
         //this.login();
         this.form.controls.email.valueChanges.subscribe((value) => {
-            this.apiService.is_admin(value).subscribe((response) => {
-                console.log(response);
+            this.apiService.is_admin(value).then((response ) => {
+              let response1 = response as {is_admin: boolean, message: string, status_code: number};
+                console.log(response1);
                 // @ts-ignore
                 this.admin = response['is_admin'];
             })
@@ -56,7 +56,7 @@ export class AuthComponent implements OnInit {
             case 'admin login':
                 firstValueFrom(this.apiService.login(this.form.controls.email.value, this.form.controls.password.value)).then((response) => {
                     console.log(response);
-                    this.router.navigate(['/admin']);
+                    this.router.navigate(['admin', 'dashboard']);
                 })
                 break;
         }
