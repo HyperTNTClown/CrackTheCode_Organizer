@@ -17,6 +17,7 @@ async fn main() -> std::io::Result<()> {
     env_logger::init();
 
     let pool = establish_connection();
+    let key = Key::generate();
 
     HttpServer::new(move || {
         App::new()
@@ -26,16 +27,17 @@ async fn main() -> std::io::Result<()> {
                     .build(),
             )
             .wrap(
-                SessionMiddleware::builder(CookieSessionStore::default(), /* TODO: Change to Key::generate() to another one every time it restarts*/ /*Key::from(&[0; 64])*/ Key::generate())
+                SessionMiddleware::builder(CookieSessionStore::default(), /* TODO: Change to Key::generate() to another one every time it restarts*/ key.clone())
                     .cookie_content_security(CookieContentSecurity::Private)
                     .cookie_secure(true)
                     .session_lifecycle(
                         PersistentSession::default()
                             .session_ttl(Duration::hours(1))
-                            .session_ttl_extension_policy(TtlExtensionPolicy::OnEveryRequest),
+                            .session_ttl_extension_policy(TtlExtensionPolicy::OnStateChanges),
                     )
                     .build(),
             )
+            .wrap(actix_web::middleware::Logger::default())
             .app_data(web::Data::new(pool.clone()))
             .app_data(web::Data::new(()))
             .configure(api::config)

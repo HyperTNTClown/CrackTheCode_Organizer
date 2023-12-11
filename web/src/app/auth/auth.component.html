@@ -1,21 +1,59 @@
-<div>
-  <form (submit)="submit($event)">
-    <mat-form-field>
-      <mat-label>Email</mat-label>
-      <input matInput type="email" name="email" id="email" placeholder="johnd123@deltalearns.ca"
-             [formControl]="form.controls.email">
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Password</mat-label>
-      <input matInput type="password" name="password" id="password" placeholder="password"
-             [formControl]="form.controls.password">
-    </mat-form-field>
-    <button mat-stroked-button type="submit" value="Login"> Login</button>
-    @if (admin) {
-      <button mat-stroked-button type="submit" value="Admin Login"> Admin Login </button>
-    }
-    <button mat-stroked-button color="" type="submit" value="Register"> Register</button>
-  </form>
+<div class="flex w-full h-screen items-center justify-center bg-gray-100 dark:bg-gray-900">
+  <div class="grid gap-10 w-full max-w-4xl p-8 md:p-12 lg:p-24 shadow-lg rounded-lg bg-white dark:bg-gray-800">
+    <form class="space-y-6" (submit)="submit($event)">
+      <h1 class="text-3xl font-bold text-center">Welcome</h1>
+      <div class="space-y-2">
+        <label
+          class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          for="email"
+        >
+          Email
+        </label>
+        <input
+          class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+          id="email"
+          placeholder="m@example.com"
+          required=""
+          type="email"
+          [formControl]="form.controls.email"
+        />
+      </div>
+      <div class="space-y-2">
+        <label
+          class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          for="password"
+        >
+          Password
+        </label>
+        <input
+          class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+          id="password"
+          required=""
+          type="password"
+          [formControl]="form.controls.password"
+        />
+      </div>
+      <div class="space-y-2">
+        <input
+          class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full"
+          type="submit"
+          value="Login"
+        />
+        <input
+          class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-primary-foreground h-10 px-4 py-2 w-full bg-blue-500 hover:bg-blue-700"
+          type="submit"
+          value="Register"
+        />
+        @if (admin) {
+        <input
+          class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-primary-foreground h-10 px-4 py-2 w-full bg-red-500 hover:bg-red-700"
+          type="submit"
+          value="Admin Login"
+        />
+        }
+      </div>
+    </form>
+  </div>
 </div>
 
 

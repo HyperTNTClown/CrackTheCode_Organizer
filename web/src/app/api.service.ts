@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {firstValueFrom, Observable} from "rxjs";
+import {firstValueFrom} from "rxjs";
+import {fromFetch} from "rxjs/internal/observable/dom/fetch";
 
 export type PuzzleSet = {
   id: number,
@@ -11,38 +12,68 @@ export type PuzzleSet = {
 }
 
 @Injectable({
-  providedIn: 'root'
-})
+              providedIn: 'root'
+            })
 export class ApiService {
 
   constructor(private http: HttpClient) {
   }
 
   private get(url: string) {
-    return this.http.get(url);
+    return fromFetch(url)
   }
 
   private post(url: string, data: any) {
-    return this.http.post(url, data);
+    return fromFetch(url, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
   }
 
-  public is_admin(username: string): Observable<{ is_admin: boolean }> {
-    return this.http.get(`/api/v1/is-admin?email=${username}`) as Observable<{ is_admin: boolean }>;
+  private put(url: string, data: any) {
+    return fromFetch(url, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+  }
+
+  public async is_admin(username: string): Promise<{ is_admin: boolean }> {
+    const response = await firstValueFrom(this.get(`/api/v1/is-admin?email=${username}`));
+    return await response.json() as { is_admin: boolean };
   }
 
   public login(email: string, password: string) {
-    return this.post(`/api/v1/auth/login`, {email, password});
+    return fromFetch(`/api/v1/auth/login`, {
+      method: 'POST',
+      body: JSON.stringify({email, password}),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
   }
 
   public register(email: string, password: string) {
     return this.post(`/api/v1/auth/register`, {email, password});
   }
 
-  fetch_sets(): Observable<PuzzleSet[]> {
-    return this.get(`/api/v1/admin/fetch`) as Observable<PuzzleSet[]>;
+  async fetch_sets(): Promise<PuzzleSet[]> {
+    const response = await firstValueFrom(this.get(`/api/v1/admin/fetch`));
+    return await response.json() as PuzzleSet[];
   }
 
-  valid_admin() : Promise<{ valid: boolean, id: string }> {
-    return firstValueFrom(this.get(`/api/v1/auth/valid-admin`) as Observable<{valid: boolean, id: string}>);
+  async valid_admin(): Promise<{ valid: boolean, id: string }> {
+    const response = await firstValueFrom(this.get(`/api/v1/auth/valid-admin`));
+    return await response.json() as { valid: boolean, id: string };
+  }
+
+  async create_set(name: string, description: string): Promise<PuzzleSet> {
+    const response = await firstValueFrom(this.put(`/api/v1/admin/puzzle-set`, {name, description}));
+    return await response.json() as PuzzleSet;
   }
 }

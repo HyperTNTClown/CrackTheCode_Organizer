@@ -21,3 +21,17 @@ pub struct IsAdminRequest {
 pub struct IsAdminResponse {
     pub(crate) is_admin: bool,
 }
+
+pub struct Response {
+    status_code: u16,
+    message: String,
+}
+
+impl Response {
+    pub fn new(status_code: u16, message: String) -> Self {
+        Self {
+            status_code,
+            message,
+        }
+    }
+}

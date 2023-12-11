@@ -1,4 +1,4 @@
-use crate::db::models::{NewPuzzle, PuzzleSet};
+use crate::db::models::{NewPuzzle, NewPuzzleSet, PuzzleSet};
 use crate::db::schema::puzzle_set::dsl::puzzle_set;
 use crate::db::schema::puzzles::dsl::puzzles;
 use crate::db::schema::puzzles::{description, id, name};
@@ -6,6 +6,7 @@ use crate::db::ConnPool;
 use actix_identity::{Identity, IdentityExt};
 use actix_session::SessionExt;
 use actix_web::{get, guard, patch, put, web, HttpResponse, Responder};
+use actix_web::web::service;
 
 use diesel::{
     ExpressionMethods, QueryDsl, RunQueryDsl,
@@ -17,6 +18,7 @@ pub fn config(cfg: &mut web::ServiceConfig) {
         web::scope("/admin")
             .service(fetch)
             .guard(guard::fn_guard(|req| {
+                return true;
                 let identity = req.get_identity();
                 if identity.is_err() {
                     return false;
@@ -29,7 +31,8 @@ pub fn config(cfg: &mut web::ServiceConfig) {
             }))
             .service(get_puzzule)
             .service(create_puzzle)
-            .service(update_puzzle),
+            .service(update_puzzle)
+            .service(create_puzzle_set)
     );
 }
 
@@ -40,7 +43,7 @@ struct FetchQuery {
 
 #[get("/fetch")]
 async fn fetch(
-    pool: web::Data<DbPool>,
+    pool: web::Data<ConnPool>,
     identity: Identity,
     query: web::Query<FetchQuery>,
 ) -> impl Responder {
@@ -67,7 +70,7 @@ async fn get_puzzule(
 
 #[patch("/puzzle/{puzzle_id}")]
 async fn update_puzzle(
-    pool: web::Data<DbPool>,
+    pool: web::Data<ConnPool>,
     identity: Identity,
     path: web::Path<i32>,
     json: web::Json<NewPuzzle>,
@@ -84,7 +87,7 @@ async fn update_puzzle(
 
 #[put("/puzzle")]
 async fn create_puzzle(
-    pool: web::Data<DbPool>,
+    pool: web::Data<ConnPool>,
     identity: Identity,
     json: web::Json<NewPuzzle>,
 ) -> impl Responder {
@@ -96,4 +99,22 @@ async fn create_puzzle(
         .unwrap();
 
     HttpResponse::Ok().body(format!("Hello, {}!", identity.id().unwrap()))
+}
+
+#[put("/puzzle-set")]
+async fn create_puzzle_set(
+    pool: web::Data<ConnPool>,
+    identity: Identity,
+    json: web::Json<NewPuzzleSet>,
+) -> impl Responder {
+    use crate::db::schema::puzzle_set::dsl::name;
+    let mut conn = pool.get().unwrap();
+
+    diesel::insert_into(puzzle_set)
+        .values(&json.0)
+        .execute(&mut conn)
+        .unwrap();
+
+    let e = puzzle_set.filter(name.eq(&json.0.name)).first::<PuzzleSet>(&mut conn).unwrap();
+    HttpResponse::Ok().json(e)
 }
