@@ -1,5 +1,9 @@
-<textarea (input)="this.emit($event)" [placeholder]="placeholder"
-          class="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+<textarea (input)="this.emit($event)" [placeholder]="placeholder" [value]="content"
+          class="flex min-h-[80px] w-full rounded-md border border-input
+          bg-transparent px-3 py-2 text-sm ring-offset-background
+          placeholder:text-muted-foreground focus-visible:outline-none
+          focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
+          disabled:cursor-not-allowed disabled:opacity-50 textarea textarea-bordered textarea-md border-none glass">
 </textarea>
 
 <!--class="block p-2.5 w-full text-sm text-gray-900

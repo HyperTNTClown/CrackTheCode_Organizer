@@ -1,0 +1,21 @@
+<div class="grid lg:grid-cols-2 gap-4 px-4 py-6 w-full">
+
+<app-markdown-editor [(content)]="puzzle!.description" [placeholder]="'Description'"></app-markdown-editor>
+<div class="card glass">
+  <div class="pr-6 pl-6 pb-6">
+    <div class="prose dark:prose-dark max-w-none">
+      <markdown [data]="puzzle?.description"
+                katex
+                mermaid
+                class="inline-block w-full border-none bg-card p-2 input-bordered">
+      </markdown>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- SaveButton -->
+<div class="flex justify-end">
+  <button class="btn btn-outline btn-accent" (click)="this.router.navigate(['/admin/puzzle'])">Back</button>
+  <button class="btn btn-primary" (click)="save()">Save</button>
+</div>

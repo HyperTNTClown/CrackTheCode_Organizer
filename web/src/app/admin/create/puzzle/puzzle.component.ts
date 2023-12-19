@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {CreateComponent} from "../create.component";
+import {ApiService} from '../../../api.service';
 
 @Component({
   selector: 'app-puzzle',
@@ -10,8 +11,10 @@ import {CreateComponent} from "../create.component";
   styleUrl: './puzzle.component.css'
 })
 export class PuzzleComponent {
-  save() {
-    throw new Error('Method not implemented.');
+
+  constructor(private api: ApiService) {}
+  save(name: string, description: string) {
+    this.api.save_puzzle(name, description).then(r => console.log(r))
   }
 
 }

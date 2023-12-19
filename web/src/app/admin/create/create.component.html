@@ -1,10 +1,7 @@
 <div class="grid lg:grid-cols-2 gap-4 px-4 py-6 w-full">
-  <div
-    class="rounded-lg border bg-card text-card-foreground shadow-sm col-span-full lg:col-span-1"
-    data-v0-t="card"
-  >
+  <div class="card glass">
     <div class="flex flex-col space-y-1.5 p-6 pb-4">
-      <h2 class="text-2xl font-semibold leading-none tracking-tight">{{creationTitle}}</h2>
+      <h2 class="card-title">{{creationTitle}}</h2>
       <p class="text-sm text-muted-foreground">Enter the details of your {{ctype}}</p>
     </div>
     <div class="p-6">
@@ -17,7 +14,7 @@
             Title
           </label>
           <input
-            class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            class="input-bordered flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             id="puzzle-title"
             placeholder="Enter {{ctype}} title"
             type="text"
@@ -41,7 +38,7 @@
                                                               (HTML-tags are also supported).</p>
         </div>
         <button
-          class="inline-flex items-center justify-center text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-9 rounded-md px-3 w-full"
+          class="btn btn-primary btn-outline"
           (click)="save(title, content)">
           {{saveText}}
         </button>
@@ -49,11 +46,10 @@
     </div>
   </div>
   <div
-    class="rounded-lg border bg-card text-card-foreground shadow-sm col-span-full lg:col-span-1"
-    data-v0-t="card"
+    class="card glass"
   >
     <div class="flex flex-col space-y-1.5 p-6 pb-4">
-      <h3 class="text-2xl font-semibold leading-none tracking-tight">Live Preview</h3>
+      <h3 class="text-2xl font-semibold leading-none tracking-tight"><b>Live Preview</b></h3>
       <p class="text-sm text-muted-foreground">See how your {{ctype}} will look</p>
     </div>
     <div class="pr-6 pl-6 pb-6">
@@ -61,7 +57,7 @@
         <markdown [data]="content"
                   katex
                   mermaid
-                  class="inline-block w-full rounded border bg-card p-2">
+                  class="inline-block w-full rounded border bg-card p-2 input-bordered">
         </markdown>
       </div>
     </div>

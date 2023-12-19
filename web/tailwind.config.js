@@ -14,6 +14,13 @@ module.exports = {
       alpha: 'upper-alpha',
     },
   },
-  plugins: [],
+  plugins: [require('daisyui')],
+  daisyui: {
+    themes: true,
+    base: true,
+    styled: true,
+    utils: true,
+    logs: true,
+  }
 }
 

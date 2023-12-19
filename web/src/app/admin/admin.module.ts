@@ -16,12 +16,16 @@ const routes: Routes = [
         loadChildren: () => import('./create/puzzle-set/puzzle-set.module').then(m => m.PuzzleSetModule)
       },
       {
-        path: 'puzzle-set-list',
+        path: 'puzzle',
         loadComponent: () => import('./list/list.component').then(m => m.ListComponent)
       },
       {
         path: 'puzzle-create',
         loadChildren: () => import('./create/puzzle/puzzle.module').then(m => m.PuzzleModule)
+      },
+      {
+        path: 'puzzle-edit/:id',
+        loadComponent: () => import('./edit/edit.component').then(m => m.EditComponent)
       },
       {
         path: 'schedule',

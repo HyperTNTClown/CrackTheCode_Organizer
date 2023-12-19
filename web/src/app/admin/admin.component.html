@@ -1,225 +1,48 @@
 <div class="grid min-h-screen w-full lg:grid-cols-[280px_1fr]">
-  <div class="border-r bg-gray-100 block dark:bg-gray-700 rounded-r">
-    <div class="flex h-full max-h-screen flex-col gap-2">
-      <div class="flex h-[60px] items-center border-b px-6">
-        <a class="flex items-center gap-2 font-semibold text-decoration-none" href="#">
-          <svg xmlns="http://www.w3.org/2000/svg"
-               width="24"
-               height="24"
-               viewBox="0 0 24 24"
-               fill="none"
-               stroke="currentColor"
-               stroke-width="2"
-               stroke-linecap="round"
-               stroke-linejoin="round"
-               class="h-6 w-6">
-            <path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z"></path>
-            <path d="m3 9 2.45-4.9A2 2 0 0 1 7.24 3h9.52a2 2 0 0 1 1.8 1.1L21 9"></path>
-            <path d="M12 3v6"></path>
-          </svg>
-          <span>Crack The Code Admin</span>
-        </a>
-      </div>
-      <div class="flex-1 overflow-auto py-2">
-        <nav class="grid items-start px-4 text-sm font-medium">
-          <a
-            class="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500  transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50 text-decoration-none"
-            routerLink="/admin/dashboard"
-            routerLinkActive="text-gray-900 bg-gray-100 dark:text-gray-50 dark:bg-gray-800">
-            <svg xmlns="http://www.w3.org/2000/svg"
-                 width="24"
-                 height="24"
-                 viewBox="0 0 24 24"
-                 fill="none"
-                 stroke="currentColor"
-                 stroke-width="2"
-                 stroke-linecap="round"
-                 stroke-linejoin="round"
-                 class="h-4 w-4">
-              <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-              <polyline points="9 22 9 12 15 12 15 22"></polyline>
-            </svg>
-            Dashboard
-          </a>
-          <cdk-accordion>
-            <cdk-accordion-item
-              #puzzleAcc="cdkAccordionItem">
-              <div
-                class="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50 text-decoration-none cursor-pointer select-none"
-                (click)="puzzleAcc.toggle()">
-                <svg xmlns="http://www.w3.org/2000/svg"
-                     width="24"
-                     height="24"
-                     viewBox="0 0 24 24"
-                     fill="none"
-                     stroke="currentColor"
-                     stroke-width="2"
-                     stroke-linecap="round"
-                     stroke-linejoin="round"
-                     class="h-4 w-4">
-                  <path d="M19.439 7.85c-.049.322.059.648.289.878l1.568 1.568c.47.47.706 1.087.706 1.704s-.235 1.233-.706 1.704l-1.611 1.611a.98.98 0 0 1-.837.276c-.47-.07-.802-.48-.968-.925a2.501 2.501 0 1 0-3.214 3.214c.446.166.855.497.925.968a.979.979 0 0 1-.276.837l-1.61 1.61a2.404 2.404 0 0 1-1.705.707 2.402 2.402 0 0 1-1.704-.706l-1.568-1.568a1.026 1.026 0 0 0-.877-.29c-.493.074-.84.504-1.02.968a2.5 2.5 0 1 1-3.237-3.237c.464-.18.894-.527.967-1.02a1.026 1.026 0 0 0-.289-.877l-1.568-1.568A2.402 2.402 0 0 1 1.998 12c0-.617.236-1.234.706-1.704L4.23 8.77c.24-.24.581-.353.917-.303.515.077.877.528 1.073 1.01a2.5 2.5 0 1 0 3.259-3.259c-.482-.196-.933-.558-1.01-1.073-.05-.336.062-.676.303-.917l1.525-1.525A2.402 2.402 0 0 1 12 1.998c.617 0 1.234.236 1.704.706l1.568 1.568c.23.23.556.338.877.29.493-.074.84-.504 1.02-.968a2.5 2.5 0 1 1 3.237 3.237c-.464.18-.894.527-.967 1.02Z"></path>
-                </svg>
-                Puzzles
-              </div>
-              <div
-                class="example-accordion-item-body"
-                role="region"
-                [style.display]="puzzleAcc.expanded ? '' : 'none'">
-                <a
-                  class="flex items-center gap-3 rounded-lg ml-8 px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50 text-decoration-none cursor-pointer select-none"
-                  routerLink="/admin/puzzle-create"
-                  routerLinkActive="text-gray-900 bg-gray-100 dark:text-gray-50 dark:bg-gray-800">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="h-4 w-4"
-                  >
-                    <line x1="12" y1="5" x2="12" y2="19"></line>
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                  </svg>
-                  Create
-                </a>
-                <a
-                  class="flex items-center gap-3 rounded-lg ml-8 px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50 text-decoration-none cursor-pointer select-none"
-                  routerLink="/admin/puzzle-list"
-                  routerLinkActive="text-gray-900 bg-gray-100 dark:text-gray-50 dark:bg-gray-800">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 487.3 487.3"
-                    fill="currentColor"
-                    class="h-4 w-4"
-                  >
-                    <path d="M487.2,69.7c0,12.9-10.5,23.4-23.4,23.4h-322c-12.9,0-23.4-10.5-23.4-23.4s10.5-23.4,23.4-23.4h322.1
-			C476.8,46.4,487.2,56.8,487.2,69.7z M463.9,162.3H141.8c-12.9,0-23.4,10.5-23.4,23.4s10.5,23.4,23.4,23.4h322.1
-			c12.9,0,23.4-10.5,23.4-23.4C487.2,172.8,476.8,162.3,463.9,162.3z M463.9,278.3H141.8c-12.9,0-23.4,10.5-23.4,23.4
-			s10.5,23.4,23.4,23.4h322.1c12.9,0,23.4-10.5,23.4-23.4C487.2,288.8,476.8,278.3,463.9,278.3z M463.9,394.3H141.8
-			c-12.9,0-23.4,10.5-23.4,23.4s10.5,23.4,23.4,23.4h322.1c12.9,0,23.4-10.5,23.4-23.4C487.2,404.8,476.8,394.3,463.9,394.3z
-			 M38.9,30.8C17.4,30.8,0,48.2,0,69.7s17.4,39,38.9,39s38.9-17.5,38.9-39S60.4,30.8,38.9,30.8z M38.9,146.8
-			C17.4,146.8,0,164.2,0,185.7s17.4,38.9,38.9,38.9s38.9-17.4,38.9-38.9S60.4,146.8,38.9,146.8z M38.9,262.8
-			C17.4,262.8,0,280.2,0,301.7s17.4,38.9,38.9,38.9s38.9-17.4,38.9-38.9S60.4,262.8,38.9,262.8z M38.9,378.7
-			C17.4,378.7,0,396.1,0,417.6s17.4,38.9,38.9,38.9s38.9-17.4,38.9-38.9C77.8,396.2,60.4,378.7,38.9,378.7z" />
-                  </svg>
-                  List
-                </a>
-              </div>
-
-            </cdk-accordion-item>
-          </cdk-accordion>
-          <cdk-accordion>
-            <cdk-accordion-item
-              #setAcc="cdkAccordionItem">
-              <div
-                class="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50 text-decoration-none cursor-pointer select-none"
-                (click)="setAcc.toggle()">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="h-4 w-4"
-                >
-                  <path d="M3 7V5c0-1.1.9-2 2-2h2"></path>
-                  <path d="M17 3h2c1.1 0 2 .9 2 2v2"></path>
-                  <path d="M21 17v2c0 1.1-.9 2-2 2h-2"></path>
-                  <path d="M7 21H5c-1.1 0-2-.9-2-2v-2"></path>
-                  <rect width="7" height="5" x="7" y="7" rx="1"></rect>
-                  <rect width="7" height="5" x="10" y="12" rx="1"></rect>
-                </svg>
-                Puzzle Sets
-              </div>
-              <div
-                class="example-accordion-item-body"
-                role="region"
-                [style.display]="setAcc.expanded ? '' : 'none'">
-                <a
-                  class="flex items-center gap-3 rounded-lg ml-8 px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50 text-decoration-none cursor-pointer select-none"
-                  routerLink="/admin/puzzle-set-create"
-                  routerLinkActive="text-gray-900 bg-gray-100 dark:text-gray-50 dark:bg-gray-800">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="h-4 w-4"
-                  >
-                    <line x1="12" y1="5" x2="12" y2="19"></line>
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                  </svg>
-                  Create
-                </a>
-                <a
-                  class="flex items-center gap-3 rounded-lg ml-8 px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50 text-decoration-none cursor-pointer select-none"
-                  routerLink="/admin/puzzle-set-list"
-                  routerLinkActive="text-gray-900 bg-gray-100 dark:text-gray-50 dark:bg-gray-800">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 487.3 487.3"
-                    fill="currentColor"
-                    class="h-4 w-4"
-                  >
-                    <path d="M487.2,69.7c0,12.9-10.5,23.4-23.4,23.4h-322c-12.9,0-23.4-10.5-23.4-23.4s10.5-23.4,23.4-23.4h322.1
-			C476.8,46.4,487.2,56.8,487.2,69.7z M463.9,162.3H141.8c-12.9,0-23.4,10.5-23.4,23.4s10.5,23.4,23.4,23.4h322.1
-			c12.9,0,23.4-10.5,23.4-23.4C487.2,172.8,476.8,162.3,463.9,162.3z M463.9,278.3H141.8c-12.9,0-23.4,10.5-23.4,23.4
-			s10.5,23.4,23.4,23.4h322.1c12.9,0,23.4-10.5,23.4-23.4C487.2,288.8,476.8,278.3,463.9,278.3z M463.9,394.3H141.8
-			c-12.9,0-23.4,10.5-23.4,23.4s10.5,23.4,23.4,23.4h322.1c12.9,0,23.4-10.5,23.4-23.4C487.2,404.8,476.8,394.3,463.9,394.3z
-			 M38.9,30.8C17.4,30.8,0,48.2,0,69.7s17.4,39,38.9,39s38.9-17.5,38.9-39S60.4,30.8,38.9,30.8z M38.9,146.8
-			C17.4,146.8,0,164.2,0,185.7s17.4,38.9,38.9,38.9s38.9-17.4,38.9-38.9S60.4,146.8,38.9,146.8z M38.9,262.8
-			C17.4,262.8,0,280.2,0,301.7s17.4,38.9,38.9,38.9s38.9-17.4,38.9-38.9S60.4,262.8,38.9,262.8z M38.9,378.7
-			C17.4,378.7,0,396.1,0,417.6s17.4,38.9,38.9,38.9s38.9-17.4,38.9-38.9C77.8,396.2,60.4,378.7,38.9,378.7z" />
-                  </svg>
-                  List
-                </a>
-              </div>
-            </cdk-accordion-item>
-          </cdk-accordion>
-          <a
-            class="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50 text-decoration-none"
-            routerLink="/admin/schedule"
-            routerLinkActive="text-gray-900 bg-gray-100 dark:text-gray-50 dark:bg-gray-800">
-            <svg xmlns="http://www.w3.org/2000/svg"
-                 width="24"
-                 height="24"
-                 viewBox="0 0 24 24"
-                 fill="none"
-                 stroke="currentColor"
-                 stroke-width="2"
-                 stroke-linecap="round"
-                 stroke-linejoin="round"
-                 class="h-4 w-4">
-              <rect width="18" height="18" x="3" y="4" rx="2" ry="2"></rect>
-              <line x1="16" x2="16" y1="2" y2="6"></line>
-              <line x1="8" x2="8" y1="2" y2="6"></line>
-              <line x1="3" x2="21" y1="10" y2="10"></line>
-            </svg>
-            Schedule
-          </a>
-        </nav>
-      </div>
+  <ul class="menu xl:menu-vertical lg:min-w-max bg-base-200 rounded-box h-full">
+    <div class="flex h-[60px] items-center border-b px-6">
+      <a class="flex items-center gap-2 font-semibold text-decoration-none" href="#">
+        <svg xmlns="http://www.w3.org/2000/svg"
+             width="24"
+             height="24"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             stroke-linecap="round"
+             stroke-linejoin="round"
+             class="h-6 w-6">
+          <path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z"></path>
+          <path d="m3 9 2.45-4.9A2 2 0 0 1 7.24 3h9.52a2 2 0 0 1 1.8 1.1L21 9"></path>
+          <path d="M12 3v6"></path>
+        </svg>
+        <span>Crack The Code Admin</span>
+      </a>
     </div>
-  </div>
-  <div class="flex flex-col p-6">
-    <main class="flex flex-1 flex-col gap-4">
+    <li>
+      <a routerLink="/admin/dashboard">Dashboard</a>
+    </li>
+    <li>
+      <a routerLink="/admin/puzzle">Puzzles</a>
+      <ul>
+        <li><a routerLink="/admin/puzzle-create">Create</a></li>
+      </ul>
+    </li>
+    <li>
+      <a routerLink="/admin/puzzle-set">Puzzle Sets</a>
+      <ul>
+        <li><a routerLink="/admin/puzzle-set-create">Create</a></li>
+      </ul>
+    </li>
+    <li>
+      <a>Teams</a>
+      <ul>
+        <li><a>Create</a></li>
+      </ul>
+    </li>
+  </ul>
+  <div class="flex flex-col p-6 h-full">
+    <main class="flex flex-1 flex-col gap-4 h-full">
       <router-outlet></router-outlet>
     </main>
   </div>

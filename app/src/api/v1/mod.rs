@@ -5,6 +5,8 @@ mod admin;
 mod auth;
 mod models;
 mod puzzle;
+mod puzzles;
+mod leaderboard;
 
 pub fn config(cfg: &mut ServiceConfig) {
     cfg.service(
@@ -17,6 +19,12 @@ pub fn config(cfg: &mut ServiceConfig) {
             )
             .configure(
                 puzzle::config
+            )
+            .configure(
+                leaderboard::config
+            )
+            .configure(
+                puzzles::config
             )
     );
 }
