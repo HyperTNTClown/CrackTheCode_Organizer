@@ -9,13 +9,6 @@ use actix_web::{get, web, HttpResponse, Responder};
 use diesel::prelude::*;
 
 pub fn config(cfg: &mut web::ServiceConfig) {
-    /*.guard(guard::fn_guard(|req| {
-        let identity = req.get_identity();
-        if identity.is_err() {
-            return false;
-        }
-        return true;
-    }))*/
     cfg.service(puzzle_markdown);
 }
 

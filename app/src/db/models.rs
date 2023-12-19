@@ -3,7 +3,7 @@ use diesel::prelude::*;
 use hsh::models::hash::Hash;
 use serde::{Deserialize, Serialize};
 
-#[derive(Queryable, Selectable, Debug)]
+#[derive(Queryable, Selectable, Debug, Serialize, Deserialize)]
 #[diesel(table_name = crate::db::schema::users)]
 #[diesel(check_for_backend(diesel::mysql::Mysql))]
 pub struct User {
@@ -39,7 +39,7 @@ impl NewUser {
     }
 }
 
-#[derive(Queryable, Selectable)]
+#[derive(Queryable, Selectable, Serialize, Deserialize)]
 #[diesel(table_name = crate::db::schema::puzzles)]
 #[diesel(check_for_backend(diesel::mysql::Mysql))]
 pub struct Puzzle {
@@ -70,6 +70,7 @@ pub struct PuzzleSet {
 }
 
 impl PuzzleSet {
+    #[allow(dead_code)]
     pub fn fetch_puzzles(&self, conn: &mut MysqlConnection) -> Vec<Puzzle> {
         use crate::db::schema::puzzle_set_refs::dsl::{puzzle_set_id, puzzle_set_refs};
         use crate::db::schema::puzzles::dsl::{id, puzzles};
@@ -115,4 +116,27 @@ pub struct PuzzleSetRef {
 pub struct NewPuzzleSetRef {
     pub puzzle_set_id: i32,
     pub puzzle_id: i32,
+}
+
+#[derive(Queryable, Selectable, Serialize, Deserialize)]
+#[diesel(table_name = crate::db::schema::teams)]
+#[diesel(check_for_backend(diesel::mysql::Mysql))]
+pub struct Team {
+    pub id: i32,
+    pub name: String,
+}
+
+#[derive(Insertable, Deserialize)]
+#[diesel(table_name = crate::db::schema::teams)]
+#[diesel(check_for_backend(diesel::mysql::Mysql))]
+pub struct NewTeam {
+    pub name: String,
+}
+
+#[derive(Queryable, Selectable, Insertable, Serialize, Deserialize)]
+#[diesel(table_name = crate::db::schema::user_teams)]
+#[diesel(check_for_backend(diesel::mysql::Mysql))]
+pub struct UserTeamRef {
+    pub user_id: i32,
+    pub team_id: Option<i32>,
 }

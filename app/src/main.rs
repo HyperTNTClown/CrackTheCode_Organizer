@@ -1,6 +1,6 @@
 mod api;
 mod db;
-
+mod middleware;
 use crate::db::establish_connection;
 use actix_identity::IdentityMiddleware;
 use actix_session::config::{CookieContentSecurity, PersistentSession, TtlExtensionPolicy};
@@ -10,6 +10,12 @@ use actix_web::{
     cookie::{time::Duration, Key},
     web, App, HttpServer,
 };
+
+#[cfg(test)]
+mod test;
+
+use diesel_migrations::{embed_migrations, EmbeddedMigrations};
+pub const EMBEDDED_MIGRATIONS: EmbeddedMigrations = embed_migrations!("migrations/");
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -33,7 +39,7 @@ async fn main() -> std::io::Result<()> {
                     .session_lifecycle(
                         PersistentSession::default()
                             .session_ttl(Duration::hours(1))
-                            .session_ttl_extension_policy(TtlExtensionPolicy::OnStateChanges),
+                            .session_ttl_extension_policy(TtlExtensionPolicy::OnEveryRequest),
                     )
                     .build(),
             )

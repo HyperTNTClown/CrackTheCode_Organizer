@@ -1,52 +1,52 @@
-<div class="flex w-full h-screen items-center justify-center bg-gray-100 dark:bg-gray-900">
-  <div class="grid gap-10 w-full max-w-4xl p-8 md:p-12 lg:p-24 shadow-lg rounded-lg bg-white dark:bg-gray-800">
+<div class="flex w-full h-screen items-center justify-center">
+  <div class="grid gap-10 w-full max-w-4xl p-8 md:p-12 lg:p-24 shadow-lg rounded-lg">
     <form class="space-y-6" (submit)="submit($event)">
-      <h1 class="text-3xl font-bold text-center">Welcome</h1>
+      <h1 class="text-3xl font-bold text-center">Login or Register</h1>
       <div class="space-y-2">
         <label
-          class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          class="label-text text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
           for="email"
         >
           Email
         </label>
         <input
-          class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+          class="input input-bordered flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
           id="email"
           placeholder="m@example.com"
-          required=""
+          required=true
           type="email"
           [formControl]="form.controls.email"
         />
       </div>
       <div class="space-y-2">
         <label
-          class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          class="label-text text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
           for="password"
         >
           Password
         </label>
         <input
-          class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+          class="input input-bordered flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
           id="password"
-          required=""
+          required=true
           type="password"
           [formControl]="form.controls.password"
         />
       </div>
       <div class="space-y-2">
         <input
-          class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full"
+          class="btn w-1/2 btn-primary"
           type="submit"
           value="Login"
         />
         <input
-          class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-primary-foreground h-10 px-4 py-2 w-full bg-blue-500 hover:bg-blue-700"
+          class="btn w-1/2 btn-outline btn-primary"
           type="submit"
           value="Register"
         />
         @if (admin) {
         <input
-          class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-primary-foreground h-10 px-4 py-2 w-full bg-red-500 hover:bg-red-700"
+          class="btn btn-block btn-outline btn-error"
           type="submit"
           value="Admin Login"
         />

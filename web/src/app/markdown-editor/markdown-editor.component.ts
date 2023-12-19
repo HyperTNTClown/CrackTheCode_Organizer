@@ -9,9 +9,10 @@ import {FormsModule} from "@angular/forms";
   templateUrl: './markdown-editor.component.html',
   styleUrl: './markdown-editor.component.css',
   outputs: ['content'],
-  inputs: ['placeholder']
+  inputs: ['placeholder', 'content']
 })
 export class MarkdownEditorComponent {
+  @Input() content!: string;
   @Output() contentChange = new EventEmitter<string>();
   @Input({required: true}) placeholder!: string;
   protected readonly HTMLTextAreaElement = HTMLTextAreaElement;

@@ -6,7 +6,7 @@ pub struct UserLoginRequest {
     pub(crate) password: String
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Serialize)]
 pub struct UserRegisterRequest {
     pub(crate) password: String,
     pub email: String,
@@ -20,18 +20,4 @@ pub struct IsAdminRequest {
 #[derive(Serialize)]
 pub struct IsAdminResponse {
     pub(crate) is_admin: bool,
-}
-
-pub struct Response {
-    status_code: u16,
-    message: String,
-}
-
-impl Response {
-    pub fn new(status_code: u16, message: String) -> Self {
-        Self {
-            status_code,
-            message,
-        }
-    }
 }

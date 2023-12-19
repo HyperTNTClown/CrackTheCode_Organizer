@@ -31,6 +31,21 @@ diesel::table! {
 }
 
 diesel::table! {
+    teams (id) {
+        id -> Integer,
+        #[max_length = 255]
+        name -> Varchar,
+    }
+}
+
+diesel::table! {
+    user_teams (user_id) {
+        user_id -> Integer,
+        team_id -> Nullable<Integer>,
+    }
+}
+
+diesel::table! {
     users (id) {
         id -> Integer,
         #[max_length = 255]
@@ -49,5 +64,7 @@ diesel::allow_tables_to_appear_in_same_query!(
     puzzle_set,
     puzzle_set_refs,
     puzzles,
+    teams,
+    user_teams,
     users,
 );

@@ -35,7 +35,6 @@
               "node_modules/prismjs/themes/prism-okaidia.css",
               "node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css",
               "node_modules/katex/dist/katex.min.css",
-              "node_modules/bootstrap/dist/css/bootstrap.css",
               "node_modules/bootstrap-markdown/css/bootstrap-markdown.min.css",
               "node_modules/font-awesome/css/font-awesome.css"
             ],

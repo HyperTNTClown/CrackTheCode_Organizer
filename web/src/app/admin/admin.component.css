@@ -1,3 +1,9 @@
 app-create-puzzle-set {
   display: block;
 }
+
+a {
+  color: #2e2e2e;
+  text-decoration: none;
+  link: none;
+}

@@ -11,6 +11,14 @@ export type PuzzleSet = {
   modified: Date,
 }
 
+export type Puzzle = {
+  id: number,
+  name: string,
+  description: string,
+  created: Date,
+  modified: Date,
+}
+
 @Injectable({
               providedIn: 'root'
             })
@@ -43,8 +51,17 @@ export class ApiService {
     })
   }
 
+  private delete(url: string) {
+    return fromFetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+  }
+
   public async is_admin(username: string): Promise<{ is_admin: boolean }> {
-    const response = await firstValueFrom(this.get(`/api/v1/is-admin?email=${username}`));
+    const response = await firstValueFrom(this.get(`/api/v1/auth/is-admin?email=${username}`));
     return await response.json() as { is_admin: boolean };
   }
 
@@ -62,8 +79,8 @@ export class ApiService {
     return this.post(`/api/v1/auth/register`, {email, password});
   }
 
-  async fetch_sets(): Promise<PuzzleSet[]> {
-    const response = await firstValueFrom(this.get(`/api/v1/admin/fetch`));
+  async fetch_puzzles(): Promise<Puzzle[]> {
+    const response = await firstValueFrom(this.get(`/api/v1/admin/puzzles`));
     return await response.json() as PuzzleSet[];
   }
 
@@ -75,5 +92,22 @@ export class ApiService {
   async create_set(name: string, description: string): Promise<PuzzleSet> {
     const response = await firstValueFrom(this.put(`/api/v1/admin/puzzle-set`, {name, description}));
     return await response.json() as PuzzleSet;
+  }
+
+  save_puzzle(name: string, description: string) {
+    return firstValueFrom(this.post(`/api/v1/admin/puzzles`, {name, description}));
+  }
+
+  delete_puzzle(id: number) {
+    return firstValueFrom(this.delete(`/api/v1/admin/puzzles/${id}`));
+  }
+
+  async fetch_puzzle(puzzleID: number) {
+    const response = await firstValueFrom(this.get(`/api/v1/admin/puzzles/${puzzleID}`));
+    return await response.json() as Puzzle;
+  }
+
+  update_puzzle(puzzleID: number, puzzle: Puzzle) {
+    return firstValueFrom(this.put(`/api/v1/admin/puzzles/${puzzleID}`, puzzle));
   }
 }
